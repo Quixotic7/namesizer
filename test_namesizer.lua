@@ -1,5 +1,6 @@
 -- namesizer
 -- a name synthesizer
+-- K2 to create nonsense name
 -- K3 to synthesize a name
 
 local NameSizer = include("lib/namesizer")
@@ -13,7 +14,10 @@ function init()
 end
 
 function key(n, z)
-    if n == 3 and z == 1 then
+    if n == 2 and z == 1 then
+        name = NameSizer.new_word()
+        redraw()
+    elseif n == 3 and z == 1 then
         name = NameSizer.rnd()
         redraw()
     end
