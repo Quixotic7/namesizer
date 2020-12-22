@@ -15,9 +15,11 @@ To use
 local NameSizer = include("namesizer/lib/namesizer")
 ```
 
-NameSizer.rnd() to generate a 2 part name by combining a descriptor word and a thing word
+`NameSizer.rnd(separator)` to generate a 2 part name by combining a descriptor word and a thing word
 
-NameSizer.new_word(length) to generate a new nonsense word. Length determines the length of the word. Length is random if left empty. 
+`NameSizer.new_word(length)` to generate a new nonsense word. Length determines the length of the word. Length is random if left empty. 
+
+`NameSizer.phonic_nonsense()` to generate a phonic nonsense word that sounds like it could be real. 
 
 
 
