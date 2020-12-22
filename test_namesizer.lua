@@ -7,6 +7,8 @@ local NameSizer = include("lib/namesizer")
 
 local name = ""
 
+local shiftDown = false
+
 function init()
     name = NameSizer.rnd()
 
@@ -14,10 +16,18 @@ function init()
 end
 
 function key(n, z)
-    if n == 2 and z == 1 then
+    if n == 1 then
+        shiftDown = z == 1
+    elseif shiftDown and n == 2 and z == 1 then
+        name = NameSizer.phonic_nonsense()
+        redraw()
+    elseif shiftDown and n == 3 and z == 1 then
+        name = NameSizer.phonic_nonsense().." "..NameSizer.phonic_nonsense()
+        redraw()
+    elseif not shiftDown and n == 2 and z == 1 then
         name = NameSizer.new_word()
         redraw()
-    elseif n == 3 and z == 1 then
+    elseif not shiftDown and n == 3 and z == 1 then
         name = NameSizer.rnd()
         redraw()
     end
