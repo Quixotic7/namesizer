@@ -6,8 +6,10 @@ NameSizer.things_path = _path.code.."namesizer/lib/things.txt"
 
 NameSizer.CONSONANTS = {"b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "r", "s", "t", "v", "w", "x", "y", "z"};
 NameSizer.VOWELS = {"a", "e", "i", "o", "u"}
+NameSizer.KEEP_IT_FUNKY = {"ca", "lll", "moo", "fu", "cha", "cream", "choc", "silk", "ice", "eee", "goo", "_a_", "two", "zzz", 
+"boo", "cats", "boom", "ch", "ck", "digi", "ome", "sh", "ish", "ed", "milk", "cyber", "punk", "delta", "epsi", "beta", "fire", "uzz" }
 
-function NameSizer.getRandNameFromFile(path)
+local function getRandNameFromFile(path)
     local f = io.open(path, "r")
 
     if f == nil then
@@ -30,17 +32,20 @@ function NameSizer.getRandNameFromFile(path)
     return s:gsub('[%p%c%s]', '')
 end
 
-
+-- Returns a random name by combining a random descriptor and thing
+-- @tparam string separator : placed in between the words, space by default
 function NameSizer.rnd(separator)
     separator = separator or " "
-    local d = NameSizer.getRandNameFromFile(NameSizer.descriptor_path)
-    local t = NameSizer.getRandNameFromFile(NameSizer.things_path);
+    local d = getRandNameFromFile(NameSizer.descriptor_path)
+    local t = getRandNameFromFile(NameSizer.things_path);
 
     return d..separator..t
 end
 
+-- Synthesizes a new word from the Cosmos
+-- @tparam int length : length of word, default = random, min = 2
 function NameSizer.new_word(length)
-    length = length or math.random(4,10)
+    length = length or math.random(4,8)
 
     length = math.max(length, 2)
 
@@ -52,11 +57,13 @@ function NameSizer.new_word(length)
     for i = 1, length do
         if hyphen and i == hypheni then
             word = word.."-"
+        elseif math.random() < 0.2 then
+            word = word..NameSizer.KEEP_IT_FUNKY[math.random(1, #NameSizer.KEEP_IT_FUNKY)]
         else
             l = b and NameSizer.CONSONANTS[math.random(1, #NameSizer.CONSONANTS)] or NameSizer.VOWELS[math.random(1, #NameSizer.VOWELS)]
             word = word..l
-            b = math.random() > 0.5
         end
+        b = math.random() > 0.5
     end
 
     return word
